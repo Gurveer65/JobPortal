@@ -1,0 +1,158 @@
+/* styles/Navbar.css */
+
+/* === Base Styles === */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 32px;
+  background-color: #f0f0f0;
+  color: #333333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  letter-spacing: 1px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.logo-job {
+  color: #004080;
+}
+
+.logo-portal {
+  color: #1a1a1a;
+}
+
+.navbar-title {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  color: #004080;
+}
+
+/* === Hamburger Icon === */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* === Nav Links === */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-links a {
+  color: #333333;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 6px 8px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #004080;
+  bottom: 0;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links a:hover {
+  color: #004080;
+}
+
+/* === Responsive (Mobile) === */
+
+/* Hamburger icon */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: rgb(17, 45, 124);
+  transition: all 0.3s ease;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 65px;
+    right: 0;
+    height: 100vh;
+    background-color: #f0f2f5;
+    color: rgb(14, 47, 122);
+    flex-direction: column;
+    width: 250px; /* Set sidebar width */
+    padding: 2rem 1rem;
+    gap: 15px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1100; /* Ensure it’s above the menu */
+  }
+
+  .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #000;
+    transition: 0.3s;
+  }
+
+  .nav-link {
+    font-size: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .logout-link {
+    cursor: pointer;
+  }
+}

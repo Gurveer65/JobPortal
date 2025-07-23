@@ -1,0 +1,82 @@
+.resume-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.resume-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #044182;
+  text-align: center;
+}
+
+.no-resume-text {
+  font-size: 16px;
+  color: #777;
+  text-align: center;
+}
+
+.resume-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+}
+
+.resume-card {
+  background-color: #f9fbff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  text-align: left;
+  transition: 0.3s ease;
+}
+
+.resume-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.resume-filename {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+  word-break: break-word;
+}
+
+.resume-date {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.resume-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.resume-view-btn,
+.resume-download-btn {
+  flex: 1;
+  text-align: center;
+  background-color: #044182;
+  color: white;
+  padding: 8px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.resume-download-btn {
+  background-color: #0066cc;
+}
+
+.resume-view-btn:hover,
+.resume-download-btn:hover {
+  opacity: 0.85;
+}

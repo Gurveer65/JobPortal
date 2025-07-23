@@ -1,0 +1,106 @@
+.job-list-container {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.job-list-heading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  text-align: center;
+  color: #3b2f63;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 0.7px;
+}
+
+/* Job Grid Layout */
+.job-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.7rem;
+  padding: 0 1rem;
+  align-items: stretch;
+}
+
+/* Individual Job Card */
+.job-card {
+  background: linear-gradient(to bottom right, #ffffff, #f1f5f9);
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(27, 36, 74, 0.1);
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.job-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(27, 36, 74, 0.15);
+}
+
+.job-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #1e293b;
+  font-family: 'Poppins', sans-serif;
+}
+
+.job-card p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #4b5563;
+  margin: 0.3rem 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Skills badge */
+.job-card .skills {
+  margin-top: 1rem;
+  display: inline-block;
+  background-color: #e0e7ff;
+  color: #314893;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  align-self: flex-start;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .job-list-heading {
+    font-size: 2rem;
+  }
+
+  .job-card {
+    padding: 1.5rem;
+  }
+
+  .job-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .job-card .skills {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .job-list-heading {
+    font-size: 1.7rem;
+  }
+
+  .job-card {
+    padding: 1.25rem;
+  }
+
+  .job-card h3 {
+    font-size: 1.15rem;
+  }
+}

@@ -1,0 +1,83 @@
+.upload-container {
+  padding: 2rem;
+  max-width: 550px;
+  margin: 2rem auto;
+  background-color: #f9fafb;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  transition: box-shadow 0.3s ease;
+}
+
+.upload-container:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.upload-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.upload-container input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background-color: #fff;
+  font-size: 0.95rem;
+}
+
+.upload-button {
+  width: 100%;
+  background-color: #2563eb;
+  padding: 0.75rem;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.25s ease;
+}
+
+.upload-button:hover {
+  background-color: #1d4ed8;
+}
+
+.upload-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.result-container {
+  margin-top: 1.75rem;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.skills-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.25rem;
+}
+
+.skills-list {
+  list-style-type: disc;
+  padding-left: 1.75rem;
+  color: #111827;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
