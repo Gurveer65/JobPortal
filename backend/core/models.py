@@ -32,14 +32,26 @@ class JobApplication(models.Model):
     def __str__(self):
         return f"Application: Resume {self.resume.id} - Job {self.job.title}"
 
+# def user_directory_path(instance, filename):
+#     return f'profile_pics/user_{instance.user.id}/{filename}'
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+#     bio = models.TextField(blank=True, null=True)
+#     zoom_level = models.IntegerField(default=1)  
+
+#     def __str__(self):
+#         return self.user.username
+
 def user_directory_path(instance, filename):
-    return f'profile_pics/user_{instance.user.id}/{filename}'
+    return f'profile_icons/user_{instance.user.id}/{filename}'
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    profile_icon = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
-    zoom_level = models.IntegerField(default=1)  
+    zoom_level = models.IntegerField(default=1)
 
     def __str__(self):
         return self.user.username

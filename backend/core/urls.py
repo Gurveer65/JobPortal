@@ -6,7 +6,7 @@ from .views import (
     ResumeJobMatchView,
     ResumeListView,
     MatchResumeView,
-    UploadProfilePictureView
+    # UploadProfilePictureView
 )
 
 from .views import AdzunaJobListView
@@ -20,7 +20,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('profile/', ProfileView.as_view(), name='profile'),
-    path('upload-profile-picture/', UploadProfilePictureView.as_view(), name='upload-profile-picture'),
+    # path('upload-profile-picture/', UploadProfilePictureView.as_view(), name='upload-profile-picture'),
     path('resumes/upload/', ResumeUploadView.as_view()),
     path('jobs/', JobListView.as_view()),
     path('resumes/', ResumeListView.as_view()),
