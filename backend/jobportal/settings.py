@@ -13,9 +13,9 @@ DEBUG = True
 import os
 
 ALLOWED_HOSTS = [
-    os.environ.get('RENDER_EXTERNAL_HOSTNAME', 'localhost'),
     '127.0.0.1',
-    'localhost'
+    'localhost',
+    'jobportal-9mgb.onrender.com'
 ]
 
 
