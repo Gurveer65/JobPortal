@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser
 from rest_framework.generics import ListAPIView
 from rest_framework import status, permissions
 from rest_framework.decorators import api_view
@@ -309,39 +309,10 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 
-# class ProfileView(APIView):
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
-#     parser_classes = [MultiPartParser]  # Supports image uploads
-
-#     def get(self, request):
-#         user = request.user
-#         profile, _ = Profile.objects.get_or_create(user=user)
-#         serializer = ProfileSerializer(profile, context={'request': request})
-#         return Response(serializer.data)
-
-#     def put(self, request):
-#         profile, _ = Profile.objects.get_or_create(user=request.user)
-#         serializer = ProfileSerializer(profile, data=request.data, partial=True, context={'request': request})
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=400)
-        
-# class UploadProfilePictureView(APIView):
-#     parser_classes = [MultiPartParser]
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
-
-#     def post(self, request):
-#         profile = Profile.objects.get(user=request.user)
-#         profile.profile_picture = request.data.get('profile_picture')
-#         profile.save()
-#         return Response({"message": "Profile picture updated successfully."}, status=status.HTTP_200_OK)
-
 class ProfileView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser]  # Supports image uploads
 
     def get(self, request):
         user = request.user
@@ -351,18 +322,19 @@ class ProfileView(APIView):
 
     def put(self, request):
         profile, _ = Profile.objects.get_or_create(user=request.user)
-
-        # Expect frontend to send profile_picture URL from Supabase
-        data = request.data.copy()
-        supabase_url = data.get('profile_picture')
-
-        if supabase_url:
-            profile.profile_picture = supabase_url  # directly set the URL
-            profile.save()
-
-        serializer = ProfileSerializer(profile, data=data, partial=True, context={'request': request})
+        serializer = ProfileSerializer(profile, data=request.data, partial=True, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+        
+class UploadProfilePictureView(APIView):
+    parser_classes = [MultiPartParser]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        profile = Profile.objects.get(user=request.user)
+        profile.profile_picture = request.data.get('profile_picture')
+        profile.save()
+        return Response({"message": "Profile picture updated successfully."}, status=status.HTTP_200_OK)
