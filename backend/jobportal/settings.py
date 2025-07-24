@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 # Base Directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -112,7 +113,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React Frontend
 ]
 
-import os
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
