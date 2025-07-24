@@ -2,8 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "../styles/Profile.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
 const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -14,20 +12,20 @@ const Profile = () => {
 
   const token = localStorage.getItem("token");
 
-  const fetchProfile = async () => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/profile/`, {
-        headers: { Authorization: `Token ${token}` },
-      });
-      setProfile(response.data);
-    } catch (error) {
-      console.error("Error fetching profile:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
+          headers: { Authorization: `Token ${token}` },
+        });
+        setProfile(response.data);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+
     fetchProfile();
-  }, []);
+  }, [token]);
 
   const handleImageClick = () => fileInputRef.current.click();
 
@@ -57,7 +55,11 @@ const Profile = () => {
       alert("Profile picture updated!");
       setPreview(null);
       setImage(null);
-      fetchProfile();
+      // refetch updated profile
+      const updated = await axios.get("http://127.0.0.1:8000/api/profile/", {
+        headers: { Authorization: `Token ${token}` },
+      });
+      setProfile(updated.data);
     } catch (error) {
       alert("Upload failed.");
       console.error("Upload error:", error);
@@ -85,7 +87,10 @@ const Profile = () => {
       setIsEditing(false);
       setPreview(null);
       setImage(null);
-      fetchProfile();
+      const updated = await axios.get("http://127.0.0.1:8000/api/profile/", {
+        headers: { Authorization: `Token ${token}` },
+      });
+      setProfile(updated.data);
     } catch (error) {
       alert("Failed to update profile.");
       console.error("Update error:", error);

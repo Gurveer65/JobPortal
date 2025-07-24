@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/ResumeList.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
 const ResumeList = () => {
   const [resumes, setResumes] = useState([]);
 
@@ -11,7 +9,7 @@ const ResumeList = () => {
     const fetchResumes = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`${API_BASE_URL}/resumes/`, {
+        const response = await axios.get("http://127.0.0.1:8000/api/resumes/", {
           headers: {
             Authorization: `Token ${token}`,
           },

@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import API from '../api/api';
 import '../styles/JobList.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
 function JobList() {
   const [jobs, setJobs] = useState([]);
 
   const fetchJobs = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/jobs/`);
+      const res = await API.get('jobs/');
       setJobs(res.data);
     } catch (error) {
       console.error("Error fetching jobs:", error);
