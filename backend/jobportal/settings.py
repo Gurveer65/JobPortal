@@ -143,6 +143,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'https://backend-v1qw.onrender.com',  
+    'https://jobportal-9mgb.onrender.com'
 ]
 
 # Application definition
