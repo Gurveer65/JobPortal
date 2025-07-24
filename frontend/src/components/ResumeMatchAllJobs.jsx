@@ -50,7 +50,7 @@ function ResumeMatchAllJobs() {
           <option value="">-- Select Resume --</option>
           {resumes.map((resume) => (
             <option key={resume.id} value={resume.id}>
-              Resume {resume.id}
+              {resume.resume_name || resume.file_nameResume || `Resume ${resume.id}` }
             </option>
           ))}
         </select>
