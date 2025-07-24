@@ -14,15 +14,18 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("token"); 
-        const response = await axios.get(
-          "https://backend-0ddt.onrender.com/api/profile/",
-          {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          }
-        );
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+  
+        const response = await axios.get("https://backend-0ddt.onrender.com/api/profile/", {
+          headers: {
+            Authorization: `Token ${token}`, // This must match DRF token auth
+          },
+        });
+  
         setProfile(response.data);
         if (response.data.profile_icon) {
           setPreview(response.data.profile_icon);
@@ -34,6 +37,7 @@ const Profile = () => {
   
     fetchProfile();
   }, []);
+  
   
 
   const handleChange = (e) => {
