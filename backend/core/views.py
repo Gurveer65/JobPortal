@@ -342,7 +342,6 @@ from rest_framework.authentication import TokenAuthentication
 class ProfileView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]  # Allow image + text uploads
 
     def get(self, request):
         user = request.user
@@ -352,8 +351,18 @@ class ProfileView(APIView):
 
     def put(self, request):
         profile, _ = Profile.objects.get_or_create(user=request.user)
-        serializer = ProfileSerializer(profile, data=request.data, partial=True, context={'request': request})
+
+        # Expect frontend to send profile_picture URL from Supabase
+        data = request.data.copy()
+        supabase_url = data.get('profile_picture')
+
+        if supabase_url:
+            profile.profile_picture = supabase_url  # directly set the URL
+            profile.save()
+
+        serializer = ProfileSerializer(profile, data=data, partial=True, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

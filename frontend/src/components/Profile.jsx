@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "../styles/Profile.css";
+import { supabase } from "../utils/supabaseClient";
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -41,21 +42,48 @@ const Profile = () => {
 
   const handleZoomChange = (e) => setZoom(Number(e.target.value));
 
+  const uploadToSupabase = async (file) => {
+    const fileName = `${Date.now()}_${file.name}`;
+    const { data, error } = await supabase.storage
+      .from("profile-pictures") // 🔁 this must match your Supabase bucket name
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (error) {
+      console.error("Supabase upload error:", error);
+      return null;
+    }
+
+    const { data: publicURLData } = supabase.storage
+      .from("profile-pictures")
+      .getPublicUrl(data.path);
+
+    return publicURLData?.publicUrl || null;
+  };
+
   const handleUpload = async () => {
     if (!image) return;
-    const formData = new FormData();
-    formData.append("profile_picture", image);
+
+    const imageUrl = await uploadToSupabase(image);
+    if (!imageUrl) {
+      alert("Failed to upload image.");
+      return;
+    }
 
     try {
-      await axios.put("https://backend-0ddt.onrender.com/api/profile/", formData, {
+      await axios.put("https://backend-0ddt.onrender.com/api/profile/", {
+        profile_picture: imageUrl,
+      }, {
         headers: {
           Authorization: `Token ${token}`,
         },
       });
+
       alert("Profile picture updated!");
       setPreview(null);
       setImage(null);
-      // refetch updated profile
       const updated = await axios.get("https://backend-0ddt.onrender.com/api/profile/", {
         headers: { Authorization: `Token ${token}` },
       });
@@ -72,21 +100,32 @@ const Profile = () => {
   };
 
   const handleSave = async () => {
-    const formData = new FormData();
-    if (image) formData.append("profile_picture", image);
-    if (profile.bio) formData.append("bio", profile.bio);
-    if (profile.contact_info) formData.append("contact_info", profile.contact_info);
+    let imageUrl = profile.profile_picture;
+
+    if (image) {
+      imageUrl = await uploadToSupabase(image);
+      if (!imageUrl) {
+        alert("Failed to upload image.");
+        return;
+      }
+    }
 
     try {
-      await axios.put("https://backend-0ddt.onrender.com/api/profile/", formData, {
+      await axios.put("https://backend-0ddt.onrender.com/api/profile/", {
+        profile_picture: imageUrl,
+        bio: profile.bio,
+        contact_info: profile.contact_info,
+      }, {
         headers: {
           Authorization: `Token ${token}`,
         },
       });
+
       alert("Profile updated successfully!");
       setIsEditing(false);
       setPreview(null);
       setImage(null);
+
       const updated = await axios.get("https://backend-0ddt.onrender.com/api/profile/", {
         headers: { Authorization: `Token ${token}` },
       });
