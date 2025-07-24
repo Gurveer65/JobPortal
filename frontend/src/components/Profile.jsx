@@ -95,32 +95,24 @@ const Profile = () => {
 
   const { skill_matches = {}, matching_jobs = [] } = profile;
 
+  const getImageSrc = () => {
+    if (imgError) return "/default-profile-icon.png";
+    if (preview) return preview;
+    if (profile.profile_picture) return profile.profile_picture;
+    return "/default-profile-icon.png";
+  };
+
   return (
     <div className="profile-naukri-container">
       <div className="naukri-left-card">
         <div className="profile-avatar" onClick={handleImageClick}>
-        <img
-        src={
-          imgError
-            ? "/default-profile-icon.png"
-            : preview || profile.profile_picture || "/default-profile-icon.png"
-        }
-        alt="Profile"
-        className="avatar-img"
-        style={{ transform: `scale(${zoom})` }}
-        onError={() => setImgError(true)} // ✅ triggers only once
-        />
-
-          {/* <img
-            src={preview || profile.profile_picture || "default-profile.jpg"}
+          <img
+            src={getImageSrc()}
             alt="Profile"
             className="avatar-img"
             style={{ transform: `scale(${zoom})` }}
-            onError={(e) => {
-              e.target.onerror = null; // Prevents infinite loop
-              e.target.src = "default-profile-icon.png"; // Path to your fallback icon
-            }}
-          /> */}
+            onError={() => setImgError(true)}
+          />
         </div>
 
         <input
@@ -164,7 +156,10 @@ const Profile = () => {
               rows={4}
             />
           ) : (
-            <p>{profile.bio || "Enthusiastic and skilled individual looking to contribute to impactful projects."}</p>
+            <p>
+              {profile.bio ||
+                "Enthusiastic and skilled individual looking to contribute to impactful projects."}
+            </p>
           )}
         </div>
 
