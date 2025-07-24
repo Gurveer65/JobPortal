@@ -11,8 +11,10 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
   
+    const BASE_URL = process.env.REACT_APP_API_URL;
+  
     try {
-      const res = await axios.post('https://backend-0ddt.onrender.com/api/login/', {
+      const res = await axios.post(`${BASE_URL}/api/login/`, {
         username,
         password,
       });
