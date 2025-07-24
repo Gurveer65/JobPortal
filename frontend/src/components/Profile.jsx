@@ -7,6 +7,7 @@ const Profile = () => {
   const [preview, setPreview] = useState(null);
   const [image, setImage] = useState(null);
   const [zoom, setZoom] = useState(1);
+  const [imgError, setImgError] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -98,7 +99,19 @@ const Profile = () => {
     <div className="profile-naukri-container">
       <div className="naukri-left-card">
         <div className="profile-avatar" onClick={handleImageClick}>
-          <img
+        <img
+        src={
+          imgError
+            ? "/default-profile-icon.png"
+            : preview || profile.profile_picture || "/default-profile-icon.png"
+        }
+        alt="Profile"
+        className="avatar-img"
+        style={{ transform: `scale(${zoom})` }}
+        onError={() => setImgError(true)} // ✅ triggers only once
+        />
+
+          {/* <img
             src={preview || profile.profile_picture || "default-profile.jpg"}
             alt="Profile"
             className="avatar-img"
@@ -107,7 +120,7 @@ const Profile = () => {
               e.target.onerror = null; // Prevents infinite loop
               e.target.src = "default-profile-icon.png"; // Path to your fallback icon
             }}
-          />
+          /> */}
         </div>
 
         <input
