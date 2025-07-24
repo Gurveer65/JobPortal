@@ -14,17 +14,27 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get("https://backend-0ddt.onrender.com/api/profile/", {
-          headers: { Authorization: `Token ${token}` },
-        });
+        const token = localStorage.getItem("token"); 
+        const response = await axios.get(
+          "https://backend-0ddt.onrender.com/api/profile/",
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
         setProfile(response.data);
+        if (response.data.profile_icon) {
+          setPreview(response.data.profile_icon);
+        }
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
     };
-
+  
     fetchProfile();
-  }, [token]);
+  }, []);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
