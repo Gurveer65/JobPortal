@@ -107,8 +107,9 @@ REST_FRAMEWORK = {
     ],
 }
 
-# CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://job-portal-six-sigma.vercel.app/",
+]
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
