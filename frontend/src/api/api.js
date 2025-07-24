@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API = axios.create({
   // baseURL: 'http://127.0.0.1:8000/api',
-  baseURL: 'https://backend-v1qw.onrender.com/api/'
+  baseURL: 'https://jobportal-9mgb.onrender.com/api/'
 });
 
 API.interceptors.request.use((config) => {
