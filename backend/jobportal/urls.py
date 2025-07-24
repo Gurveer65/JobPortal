@@ -10,12 +10,12 @@ def root_view(request):
     return JsonResponse({"message": "Backend is running."})
 
 urlpatterns = [
-    path('', root_view),  # Optional base route
+    path('', root_view),
     path('admin/', admin.site.urls),
-    path('api/', include('core.urls')),  # Make sure core/urls.py exists
-    path('api/token/', obtain_auth_token),  # Token-based login
+    path('api/', include('core.urls')),  # Ensure core/urls.py has profile endpoint
+    path('api/token/', obtain_auth_token),
 ]
 
-# If you're serving media files in development
+# Serve media files in development (for profile_icon uploads)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,14 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/Profile.css";
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [image, setImage] = useState(null);
-  const [zoom, setZoom] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
-  const fileInputRef = useRef(null);
 
   const token = localStorage.getItem("token");
 
@@ -27,44 +23,6 @@ const Profile = () => {
     fetchProfile();
   }, [token]);
 
-  const handleImageClick = () => fileInputRef.current.click();
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setImage(file);
-    const reader = new FileReader();
-    reader.onloadend = () => setPreview(reader.result);
-    reader.readAsDataURL(file);
-  };
-
-  const handleZoomChange = (e) => setZoom(Number(e.target.value));
-
-  const handleUpload = async () => {
-    if (!image) return;
-    const formData = new FormData();
-    formData.append("profile_picture", image);
-
-    try {
-      await axios.put("https://backend-0ddt.onrender.com/api/profile/", formData, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
-      alert("Profile picture updated!");
-      setPreview(null);
-      setImage(null);
-      const updated = await axios.get("https://backend-0ddt.onrender.com/api/profile/", {
-        headers: { Authorization: `Token ${token}` },
-      });
-      setProfile(updated.data);
-    } catch (error) {
-      alert("Upload failed.");
-      console.error("Upload error:", error);
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfile({ ...profile, [name]: value });
@@ -72,7 +30,6 @@ const Profile = () => {
 
   const handleSave = async () => {
     const formData = new FormData();
-    if (image) formData.append("profile_picture", image);
     if (profile.bio) formData.append("bio", profile.bio);
     if (profile.contact_info) formData.append("contact_info", profile.contact_info);
 
@@ -84,8 +41,6 @@ const Profile = () => {
       });
       alert("Profile updated successfully!");
       setIsEditing(false);
-      setPreview(null);
-      setImage(null);
       const updated = await axios.get("https://backend-0ddt.onrender.com/api/profile/", {
         headers: { Authorization: `Token ${token}` },
       });
@@ -103,56 +58,24 @@ const Profile = () => {
   return (
     <div className="profile-naukri-container">
       <div className="naukri-left-card">
-        <div className="profile-avatar" onClick={handleImageClick}>
-          {preview || profile.profile_picture ? (
-            <img
-              src={preview || profile.profile_picture}
-              alt="Profile"
-              className="avatar-img"
-              style={{ transform: `scale(${zoom})` }}
-            />
-          ) : (
-            <div className="default-icon-container">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="avatar-icon"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                width="80"
-                height="80"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M12 2a5 5 0 100 10 5 5 0 000-10zm-8 18a8 8 0 1116 0H4z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-          )}
-        </div>
-
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          ref={fileInputRef}
-          style={{ display: "none" }}
-        />
-
-        {preview && (
-          <div className="image-preview-container">
-            <h4>Adjust Zoom:</h4>
-            <input
-              type="range"
-              min="1"
-              max="2"
-              step="0.01"
-              value={zoom}
-              onChange={handleZoomChange}
-            />
-            <button onClick={handleUpload}>Save Photo</button>
+        <div className="profile-avatar">
+          <div className="default-icon-container">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="avatar-icon"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              width="80"
+              height="80"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12 2a5 5 0 100 10 5 5 0 000-10zm-8 18a8 8 0 1116 0H4z"
+                clipRule="evenodd"
+              />
+            </svg>
           </div>
-        )}
+        </div>
 
         <div className="left-basic-info">
           <h2>{profile.username}</h2>
