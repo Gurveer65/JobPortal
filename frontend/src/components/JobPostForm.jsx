@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/JobPostForm.css'; 
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const JobPostForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -18,8 +20,7 @@ const JobPostForm = () => {
     }
 
     try {
-      const response = await axios.post(
-        'http://localhost:8000/api/jobs/',
+      const response = await fetch(`${API_BASE_URL}/jobs/`,
         {
           title,
           description,

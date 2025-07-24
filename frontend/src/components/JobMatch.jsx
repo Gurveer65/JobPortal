@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import API from '../api/api';
 import '../styles/JobMatch.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function JobMatch() {
   const [resumeId, setResumeId] = useState('');
   const [jobId, setJobId] = useState('');
   const [result, setResult] = useState(null);
 
   const handleMatch = async () => {
-    const res = await API.post('http://localhost:8000/api/resume/match/', {
+    const response = await fetch(`${API_BASE_URL}/resume/match`, {
       resume_id: resumeId,
       job_id: jobId
     });

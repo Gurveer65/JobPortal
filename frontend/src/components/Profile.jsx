@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "../styles/Profile.css";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -14,7 +16,7 @@ const Profile = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
+        const response = await fetch(`${API_BASE_URL}/profile/`, {
         headers: { Authorization: `Token ${token}` },
       });
       setProfile(response.data);
