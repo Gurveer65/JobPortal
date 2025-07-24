@@ -1,5 +1,4 @@
 from pathlib import Path
-import dj_database_url
 
 # Base Directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,14 +9,7 @@ SECRET_KEY = 'django-insecure-j=(way)e2#c-1w!zf@8h$!1=b(v_i9v5@7)16r0bi54yr#c8bv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-import os
-
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    'jobportal-9mgb.onrender.com'
-]
-
+ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
@@ -70,18 +62,18 @@ WSGI_APPLICATION = 'jobportal.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': dj_database_url.parse(
-        'postgresql://postgres.uegjdyqczrmzhwlutfyt:s$@.98*nr!GA9Tu@aws-0-ap-south-1.pooler.supabase.com:5432/postgres'
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
-
-# #  For future PostgreSQL migration, use:
+# ✅ For future PostgreSQL migration, use:
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'job_portal_db',
-#         'USER': 'gurveerkaur',
-#         'PASSWORD': 'Gu@50813',
+#         'NAME': 'your_db_name',
+#         'USER': 'your_user',
+#         'PASSWORD': 'your_password',
 #         'HOST': 'localhost',
 #         'PORT': '5432',
 #     }
@@ -120,8 +112,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React Frontend
 ]
 
+import os
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 
 # Media file settings
 MEDIA_URL = '/media/'
