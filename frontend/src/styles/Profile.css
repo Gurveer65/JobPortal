@@ -226,3 +226,18 @@
   font-size: 13px;
   color: #666;
 }
+
+.default-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eaeaea;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+}
+
+.avatar-icon {
+  color: #888;
+}

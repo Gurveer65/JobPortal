@@ -55,7 +55,6 @@ const Profile = () => {
       alert("Profile picture updated!");
       setPreview(null);
       setImage(null);
-      // refetch updated profile
       const updated = await axios.get("https://backend-0ddt.onrender.com/api/profile/", {
         headers: { Authorization: `Token ${token}` },
       });
@@ -105,12 +104,31 @@ const Profile = () => {
     <div className="profile-naukri-container">
       <div className="naukri-left-card">
         <div className="profile-avatar" onClick={handleImageClick}>
-          <img
-            src={preview || profile.profile_picture || "default-profile.jpg"}
-            alt="Profile"
-            className="avatar-img"
-            style={{ transform: `scale(${zoom})` }}
-          />
+          {preview || profile.profile_picture ? (
+            <img
+              src={preview || profile.profile_picture}
+              alt="Profile"
+              className="avatar-img"
+              style={{ transform: `scale(${zoom})` }}
+            />
+          ) : (
+            <div className="default-icon-container">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="avatar-icon"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                width="80"
+                height="80"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12 2a5 5 0 100 10 5 5 0 000-10zm-8 18a8 8 0 1116 0H4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+          )}
         </div>
 
         <input
