@@ -10,11 +10,15 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+  
+    const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+  
     try {
-      const res = await axios.post("http://localhost:8000/api/login/", {
+      const res = await axios.post(`${BASE_URL}/api/login/`, {
         username,
         password,
       });
+  
       const token = res.data.token;
       localStorage.setItem("token", token);
       axios.defaults.headers.common["Authorization"] = `Token ${token}`;

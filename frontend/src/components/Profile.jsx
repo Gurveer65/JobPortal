@@ -15,7 +15,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
+        const response = await axios.get("https://backend-0ddt.onrender.com/api/profile/", {
           headers: { Authorization: `Token ${token}` },
         });
         setProfile(response.data);
@@ -47,7 +47,7 @@ const Profile = () => {
     formData.append("profile_picture", image);
 
     try {
-      await axios.put("http://127.0.0.1:8000/api/profile/", formData, {
+      await axios.put("https://backend-0ddt.onrender.com/api/profile/", formData, {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -56,7 +56,7 @@ const Profile = () => {
       setPreview(null);
       setImage(null);
       // refetch updated profile
-      const updated = await axios.get("http://127.0.0.1:8000/api/profile/", {
+      const updated = await axios.get("https://backend-0ddt.onrender.com/api/profile/", {
         headers: { Authorization: `Token ${token}` },
       });
       setProfile(updated.data);
@@ -78,7 +78,7 @@ const Profile = () => {
     if (profile.contact_info) formData.append("contact_info", profile.contact_info);
 
     try {
-      await axios.put("http://127.0.0.1:8000/api/profile/", formData, {
+      await axios.put("https://backend-0ddt.onrender.com/api/profile/", formData, {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -87,7 +87,7 @@ const Profile = () => {
       setIsEditing(false);
       setPreview(null);
       setImage(null);
-      const updated = await axios.get("http://127.0.0.1:8000/api/profile/", {
+      const updated = await axios.get("https://backend-0ddt.onrender.com/api/profile/", {
         headers: { Authorization: `Token ${token}` },
       });
       setProfile(updated.data);

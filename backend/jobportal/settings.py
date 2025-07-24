@@ -109,9 +109,6 @@ REST_FRAMEWORK = {
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React Frontend
-]
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
