@@ -103,6 +103,10 @@ const Profile = () => {
             alt="Profile"
             className="avatar-img"
             style={{ transform: `scale(${zoom})` }}
+            onError={(e) => {
+              e.target.onerror = null; // Prevents infinite loop
+              e.target.src = "default-profile-icon.png"; // Path to your fallback icon
+            }}
           />
         </div>
 
