@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "../styles/Profile.css";
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
 
+  const fileInputRef = useRef(null);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -28,10 +31,20 @@ const Profile = () => {
     setProfile({ ...profile, [name]: value });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setImage(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setPreview(reader.result);
+    reader.readAsDataURL(file);
+  };
+
   const handleSave = async () => {
     const formData = new FormData();
     if (profile.bio) formData.append("bio", profile.bio);
     if (profile.contact_info) formData.append("contact_info", profile.contact_info);
+    if (image) formData.append("profile_icon", image);
 
     try {
       await axios.put("https://backend-0ddt.onrender.com/api/profile/", formData, {
@@ -41,6 +54,8 @@ const Profile = () => {
       });
       alert("Profile updated successfully!");
       setIsEditing(false);
+      setImage(null);
+      setPreview(null);
       const updated = await axios.get("https://backend-0ddt.onrender.com/api/profile/", {
         headers: { Authorization: `Token ${token}` },
       });
@@ -55,27 +70,45 @@ const Profile = () => {
 
   const { skill_matches = {}, matching_jobs = [] } = profile;
 
+  const handleImageClick = () => fileInputRef.current.click();
+
   return (
     <div className="profile-naukri-container">
       <div className="naukri-left-card">
-        <div className="profile-avatar">
-          <div className="default-icon-container">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="avatar-icon"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              width="80"
-              height="80"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12 2a5 5 0 100 10 5 5 0 000-10zm-8 18a8 8 0 1116 0H4z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
+        <div className="profile-avatar" onClick={handleImageClick}>
+          {preview || profile.profile_icon ? (
+            <img
+              src={preview || profile.profile_icon}
+              alt="Profile"
+              className="avatar-img"
+            />
+          ) : (
+            <div className="default-icon-container">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="avatar-icon"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                width="80"
+                height="80"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12 2a5 5 0 100 10 5 5 0 000-10zm-8 18a8 8 0 1116 0H4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+          )}
         </div>
+
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          ref={fileInputRef}
+          style={{ display: "none" }}
+        />
 
         <div className="left-basic-info">
           <h2>{profile.username}</h2>
@@ -116,7 +149,13 @@ const Profile = () => {
           {isEditing ? (
             <>
               <button onClick={handleSave}>Save Changes</button>
-              <button onClick={() => setIsEditing(false)}>Cancel</button>
+              <button onClick={() => {
+                setIsEditing(false);
+                setImage(null);
+                setPreview(null);
+              }}>
+                Cancel
+              </button>
             </>
           ) : (
             <button onClick={() => setIsEditing(true)}>Edit Profile</button>
