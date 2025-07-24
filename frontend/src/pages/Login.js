@@ -13,7 +13,7 @@ const Login = () => {
   
   
     try {
-      const res = axios.post(`${process.env.REACT_APP_API_URL}/api/login/`, {
+      const res = axios.post(`https://backend-0ddt.onrender.com/api/login/`, {
         username,
         password,
       });
